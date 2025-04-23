@@ -18,9 +18,16 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from app.views import *
 from django.http import HttpResponse
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ReactView.as_view(), name="xxx"),
     path('test/', lambda request: HttpResponse("It works!")),
+    path("app/user/register/", CreateUserView.as_view(), name="register"),
+    path("app/token/", TokenObtainPairView.as_view(), name="get_token"),
+    path("app/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
+    path("app-auth/", include("rest_framework.urls")),
+    # path("app/", include("app.urls")),
 ]
