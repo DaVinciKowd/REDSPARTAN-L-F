@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class React(models.Model):
-    employee = models.CharField(max_length=30)
-    department = models.CharField(max_length=200)
+# class React(models.Model):
+#     employee = models.CharField(max_length=30)
+#     department = models.CharField(max_length=200)
 
 class Note(models.Model):
     title = models.CharField(max_length=100)
