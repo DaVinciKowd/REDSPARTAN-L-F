@@ -79,12 +79,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Frontend URL    
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 ROOT_URLCONF = 'redspartan_l_and_f.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

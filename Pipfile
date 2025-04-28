@@ -9,6 +9,7 @@ django-cors-headers = "*"
 pymysql = "*"
 python-dotenv = "*"
 djangorestframework-simplejwt = "*"
+pillow = "*"
 
 [dev-packages]
 

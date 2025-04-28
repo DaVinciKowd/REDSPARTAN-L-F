@@ -1,30 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import viewsets
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from . models import *
 from . serializer import *
 # Create your views here.
-
-
-# class ReactView(APIView):
-
-#     serializer_class = UserSerializer
-
-#     def get(self, request):
-#         output = [{"employee": output.employee, "department": output.department}
-#                   for output in React.objects.all()]
-#         return Response(output)
-
-#     def post(self, request):
-
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
-        
 
 class NoteListCreate(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
@@ -54,4 +37,9 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all().order_by('-date_reported')
+    serializer_class = ItemSerializer
+    filterset_fields = ['status', 'category']
+    search_fields = ['name', 'description', 'location']
 
