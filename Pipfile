@@ -10,6 +10,7 @@ pymysql = "*"
 python-dotenv = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
+django-filter = "*"
 
 [dev-packages]
 

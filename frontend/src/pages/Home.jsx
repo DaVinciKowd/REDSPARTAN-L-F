@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import Note from "../components/Note"
+import Navbar from "../components/Navbar";
 import "../styles/Home.css"
 
 function Home() {
@@ -48,6 +49,7 @@ function Home() {
 
     return (
         <div>
+            <Navbar />
             <div>
                 <h2>Notes</h2>
                 {notes.map((note) => (

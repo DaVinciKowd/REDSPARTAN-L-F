@@ -22,6 +22,7 @@ function Form({ route, method }) {
             if (method === "login") {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+                localStorage.setItem("username", username);
                 navigate("/")
             } else {
                 navigate("/login")
@@ -35,21 +36,32 @@ function Form({ route, method }) {
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
-            <h1>{name}</h1>
-            <input
-                className="form-input"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-            />
-            <input
-                className="form-input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-            />
+            <div className="input-group">
+                <label>{name}</label>
+                <div class="input-with-icon">
+                <span class="input-icon">👤</span>
+                    <input
+                        className="form-input"
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                    />
+                </div>
+            </div>
+            <div className="input-group">
+                <label>Password</label>
+                <div class="input-with-icon">
+                <span class="input-icon">🔒</span>
+                <input
+                    className="form-input"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                />
+                </div>
+            </div>
             {loading && <LoadingIndicator />}
             <button className="form-button" type="submit">
                 {name}

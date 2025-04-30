@@ -5,6 +5,8 @@ from . import views
 # Create the router here
 router = DefaultRouter()
 router.register(r'items', views.ItemViewSet)
+router.register(r'claims', views.ClaimViewSet)
+
 
 urlpatterns = [
     path("notes/", views.NoteListCreate.as_view(), name="note-list"),
