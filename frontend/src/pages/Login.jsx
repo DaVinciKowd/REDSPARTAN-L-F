@@ -23,6 +23,11 @@ function Login() {
                         <div className="login-box">
                             <h2>Hi, Welcome back!</h2>
                             <Form route="/api/token/" method="login" />
+
+                            <p className="forgot-password-link">
+                                <a href="/forgot-password">Forgot your password?</a>
+                            </p>
+
                             <p className="signup-link">
                                 Don't have an account? <a href="/register">Register now</a>
                             </p>

@@ -1,18 +1,60 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-# Create your models here.
+import re
 
+# Custom validators
+def validate_username_format(value):
+    if not re.match(r"^\d{2}-\d{5}$", value):
+        raise ValidationError("Username must follow the format YY-NNNNN (e.g., 22-09335)")
 
+def validate_email_domain(value):
+    required_domain = "@g.batstate-u.edu.ph"
+    if not value.endswith(required_domain):
+        raise ValidationError(f"Email must end with {required_domain}")
+    
+def validate_username_matches_email(username, email):
+    """
+    Ensures username == first 8 characters of email.
+    """
+    if email and username != email[:8]:
+        raise ValidationError(
+            f"Username must match the first 8 characters of the email ({email[:8]})."
+        )
+
+# Custom user model
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True, validators=[validate_email_domain])
+    username = models.CharField(
+        max_length=20,
+        unique=True,
+        validators=[validate_username_format],
+    )
+
+    def clean(self):
+        super().clean()
+        # Check if email already exists (excluding self on update)
+        if CustomUser.objects.filter(email=self.email).exclude(pk=self.pk).exists():
+            raise ValidationError({"email": "A user with this email already exists."})
+
+        # Check if username already exists (excluding self on update)
+        if CustomUser.objects.filter(username=self.username).exclude(pk=self.pk).exists():
+            raise ValidationError({"username": "A user with this username already exists."})
+        
+        # Enforce username == email[:8]
+        validate_username_matches_email(self.username, self.email)
+
+# Note model
 class Note(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes")
+    author = models.ForeignKey('app.CustomUser', on_delete=models.CASCADE, related_name="notes")
 
     def __str__(self):
         return self.title
 
+# Constants for Item model
 ITEM_CATEGORIES = [
     ('electronics', 'Electronics'),
     ('hygiene', 'Hygiene'),
@@ -35,6 +77,7 @@ ITEM_STATUS = [
     ('found', 'Found'),
 ]
 
+# Item model
 class Item(models.Model):
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=50, choices=ITEM_CATEGORIES)
@@ -44,14 +87,15 @@ class Item(models.Model):
     image = models.ImageField(upload_to='item_images/', blank=True, null=True)
     status = models.CharField(max_length=10, choices=ITEM_STATUS)
     is_claimed = models.BooleanField(default=False)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items") 
+    author = models.ForeignKey('app.CustomUser', on_delete=models.CASCADE, related_name="items") 
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
-    
+
+# Claim model
 class Claim(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name="claims")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="claims")
+    user = models.ForeignKey('app.CustomUser', on_delete=models.CASCADE, related_name="claims")
     claim_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=20,
@@ -65,29 +109,23 @@ class Claim(models.Model):
     )
 
     class Meta:
-        # Same user can't claim same item more than once
-        unique_together = ('item', 'user')  
+        unique_together = ('item', 'user')
 
     def __str__(self):
         return f"{self.user.username} claims {self.item.name}"
 
     def clean(self):
-        from django.core.exceptions import ValidationError
-
-        # Only found items can be claimed
         if self.item.status != 'found':
             raise ValidationError("Only items with 'found' status can be claimed.")
 
-        # Prevent users from claiming already claimed items
         existing_claims = Claim.objects.filter(item=self.item).exclude(pk=self.pk)
         if existing_claims.exists():
             raise ValidationError("This item has already been claimed by another user.")
-        
-        # Prevent users from having multiple claims at an instance
+
         user_claims = Claim.objects.filter(user=self.user).exclude(pk=self.pk)
         if user_claims.exists():
             raise ValidationError("A user can only have one active claim at a time.")
-    
+
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)

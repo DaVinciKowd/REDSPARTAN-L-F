@@ -12,7 +12,7 @@
   }
   
   .form-input {
-    width: 90%;
+    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -21,7 +21,7 @@
   }
   
   .form-button {
-    width: 90%;
+    width: 50%;
     padding: 10px;
     margin: 20px 0;
     background-color: #f80a0a;
@@ -32,6 +32,33 @@
     transition: background-color 0.2s ease-in-out;
   }
   
+  .form-error {
+    color: #b22222;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    text-align: center;
+  }  
+  
   .form-button:hover {
     background-color: #b82020;
+  }
+
+  .password-field {
+    position: relative;
+  }
+
+  .password-field .form-input {
+    padding-right: 0.79rem;
+  }
+
+  .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-42%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #666;
   }

@@ -151,6 +151,23 @@ main::before {
     background-color: #B22222;
 }
 
+.forgot-password-link {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.forgot-password-link a {
+    color: #cd4545;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+    color: #772121; /* Darker red on hover */
+}
+
 .signup-link {
     font-size: 0.8rem;
     color: #666;

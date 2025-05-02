@@ -2,44 +2,71 @@ import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import "../styles/Form.css"
+import { FiEye, FiEyeOff, FiUser, FiMail, FiLock } from "react-icons/fi";
+import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
 
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState([]);
     const navigate = useNavigate();
 
     const name = method === "login" ? "Login" : "Register";
 
     const handleSubmit = async (e) => {
-        setLoading(true);
         e.preventDefault();
+        setErrorMsg([]);
+
+        if (!username || !password || (method !== "login" && !email)) {
+            setErrorMsg(["Please fill out the required fields"]);
+            return;
+        }
+
+        setLoading(true);
 
         try {
-            const res = await api.post(route, { username, password })
+            const payload =
+                method === "login"
+                    ? { username, password }
+                    : { username, email, password };
+
+            const res = await api.post(route, payload);
+
             if (method === "login") {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 localStorage.setItem("username", username);
-                navigate("/")
+                navigate("/");
             } else {
-                navigate("/login")
+                navigate("/login");
             }
         } catch (error) {
-            alert(error)
+            const data = error.response?.data;
+
+            if (error.response?.status === 400 && data) {
+                const messages = Object.values(data).flat();
+                setErrorMsg(messages);
+            } else if (error.response?.status === 401) {
+                setErrorMsg(["User does not exist or incorrect password"]);
+            } else {
+                setErrorMsg(["An unexpected error occurred. Please try again."]);
+            }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
+            <h2 className="form-title">{name}</h2>
             <div className="input-group">
-                <label>{name}</label>
-                <div class="input-with-icon">
-                <span class="input-icon">👤</span>
+                <label>Username</label>
+                <div className="input-with-icon">
+                    <FiUser className="input-icon" />
                     <input
                         className="form-input"
                         type="text"
@@ -49,20 +76,54 @@ function Form({ route, method }) {
                     />
                 </div>
             </div>
+
+            {method !== "login" && (
+                <div className="input-group">
+                    <label>Email</label>
+                    <div className="input-with-icon">
+                        <FiMail className="input-icon" />
+                        <input
+                            className="form-input"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email"
+                        />
+                    </div>
+                </div>
+            )}
+
             <div className="input-group">
                 <label>Password</label>
-                <div class="input-with-icon">
-                <span class="input-icon">🔒</span>
-                <input
-                    className="form-input"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                />
+                <div className="input-with-icon password-field">
+                    <FiLock className="input-icon" />
+                    <input
+                        className="form-input"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+                    <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                        {showPassword ? <FiEye /> : <FiEyeOff />}
+                    </button>
                 </div>
             </div>
+
+            {errorMsg.length > 0 && (
+                <div className="form-error">
+                    {errorMsg.map((msg, idx) => (
+                        <div key={idx}>{msg}</div>
+                    ))}
+                </div>
+            )}
+
             {loading && <LoadingIndicator />}
+
             <button className="form-button" type="submit">
                 {name}
             </button>
@@ -70,4 +131,4 @@ function Form({ route, method }) {
     );
 }
 
-export default Form
+export default Form;

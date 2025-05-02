@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from .models import CustomUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework import viewsets, filters
@@ -34,8 +34,8 @@ class NoteDelete(generics.DestroyAPIView):
         return Note.objects.filter(author=user)
 
 class CreateUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
     permission_classes = [AllowAny]
 
 class ItemViewSet(viewsets.ModelViewSet):
