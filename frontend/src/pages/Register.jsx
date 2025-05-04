@@ -1,5 +1,6 @@
 import Form from "../components/Form"
 import Navbar from "../components/Navbar";
+import "../styles/Register.css";
 
 function Register() {
     return (

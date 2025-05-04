@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework import viewsets, filters
 # from rest_framework.views import APIView
 # from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from . models import *
 from . serializer import *
 # Create your views here.
@@ -41,13 +41,20 @@ class CreateUserView(generics.CreateAPIView):
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all().order_by('-date_reported')
     serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['status', 'category']
     search_fields = ['name', 'description', 'location']
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request 
+        return context
+
 class ClaimViewSet(viewsets.ModelViewSet):
     queryset = Claim.objects.all()
     serializer_class = ClaimSerializer
+    permission_classes = [IsAuthenticated] 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['status', 'user', 'item']
 

@@ -1,0 +1,25 @@
+.submit-main-content {
+    padding: 2rem;
+}
+
+.submit-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.submit-welcome-text {
+    flex: 1 1 40%;
+    min-width: 300px;
+}
+
+.submit-box {
+    flex: 1 1 50%;
+    min-width: 300px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}

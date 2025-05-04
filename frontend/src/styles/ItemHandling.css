@@ -1,0 +1,122 @@
+.itemhandling-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Cabin', sans-serif;
+}
+
+.itemhandling-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #b10000;
+}
+
+.itemhandling-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.itemhandling-group label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.itemhandling-input-with-icon {
+  position: relative;
+}
+
+.itemhandling-icon {
+  position: absolute;
+  left: 12px;
+  top: 45%;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  color: #666;
+  pointer-events: none;
+}
+
+.itemhandling-input,
+.itemhandling-input-with-icon select,
+.itemhandling-input-with-icon textarea,
+.itemhandling-input-with-icon input[type="file"] {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.itemhandling-input-with-icon textarea {
+  height: auto;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.itemhandling-input:focus,
+.itemhandling-input-with-icon select:focus,
+.itemhandling-input-with-icon textarea:focus {
+  border-color: #b10000;
+}
+
+.itemhandling-button {
+  width: 100%;
+  margin-top: 30px;
+  padding: 0.8rem;
+  background-color: #b10000;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.itemhandling-button:hover {
+  background-color: #8c0000;
+}
+
+.itemhandling-error {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background-color: #ffdddd;
+  border: 1px solid #ff5c5c;
+  border-radius: 5px;
+  color: #b10000;
+}
+
+.itemhandling-success {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background-color: #dfffe0;
+  border: 1px solid #61d868;
+  border-radius: 5px;
+  color: #2b8a3e;
+}
+
+.itemhandling-dropzone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.itemhandling-dropzone.active {
+  border-color: #ff3c3c;
+  background-color: #f0f8ff;
+}

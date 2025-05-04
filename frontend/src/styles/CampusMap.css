@@ -1,0 +1,76 @@
+.campus-map-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .campus-map-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    text-align: center;
+  }
+  
+  .campus-map-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px auto;
+  }
+  
+  .campus-map-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+  
+  .campus-map-pin {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-size: cover;
+    transform: translate(-50%, -50%);
+    animation: drop 0.5s ease-out, fadeIn 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes drop {
+    0% {
+      transform: translate(-50%, -150%);
+    }
+    100% {
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .campus-map-buttons button {
+    margin: 10px;
+    padding: 8px 16px;
+    background-color: steelblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .campus-map-buttons .cancel-btn {
+    background-color: crimson;
+  }
+  

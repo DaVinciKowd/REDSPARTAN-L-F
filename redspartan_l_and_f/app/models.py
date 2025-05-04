@@ -73,11 +73,11 @@ ITEM_CATEGORIES = [
 ]
 
 ITEM_STATUS = [
-    ('lost', 'Lost'),
-    ('found', 'Found'),
+    ('available', 'Available'),
+    ('pending', 'Pending Review'),
+    ('claimed', 'Claimed'),
 ]
 
-# Item model
 class Item(models.Model):
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=50, choices=ITEM_CATEGORIES)
@@ -85,14 +85,12 @@ class Item(models.Model):
     date_reported = models.DateTimeField(auto_now_add=True)
     location = models.CharField(max_length=255)
     image = models.ImageField(upload_to='item_images/', blank=True, null=True)
-    status = models.CharField(max_length=10, choices=ITEM_STATUS)
-    is_claimed = models.BooleanField(default=False)
+    status = models.CharField(max_length=10, choices=ITEM_STATUS, default='available')
     author = models.ForeignKey('app.CustomUser', on_delete=models.CASCADE, related_name="items") 
 
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
 
-# Claim model
 class Claim(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name="claims")
     user = models.ForeignKey('app.CustomUser', on_delete=models.CASCADE, related_name="claims")
@@ -115,17 +113,53 @@ class Claim(models.Model):
         return f"{self.user.username} claims {self.item.name}"
 
     def clean(self):
-        if self.item.status != 'found':
-            raise ValidationError("Only items with 'found' status can be claimed.")
+        # Only allow claims on available items
+        if self.item.status != 'available':
+            raise ValidationError("Only items with 'available' status can be claimed.")
 
-        existing_claims = Claim.objects.filter(item=self.item).exclude(pk=self.pk)
-        if existing_claims.exists():
-            raise ValidationError("This item has already been claimed by another user.")
+        # Prevent repeat denied claims by same user
+        if Claim.objects.filter(
+            item=self.item,
+            user=self.user,
+            status='denied'
+        ).exclude(pk=self.pk).exists():
+            raise ValidationError("You have already been denied a claim for this item.")
 
-        user_claims = Claim.objects.filter(user=self.user).exclude(pk=self.pk)
-        if user_claims.exists():
-            raise ValidationError("A user can only have one active claim at a time.")
+        # Prevent conflicting claims from others
+        if Claim.objects.filter(
+            item=self.item,
+            status='pending'
+        ).exclude(pk=self.pk).exists():
+            raise ValidationError("This item already has a pending claim.")
+
+        if Claim.objects.filter(
+            item=self.item,
+            status__in=['approved', 'claimed']
+        ).exclude(pk=self.pk).exists():
+            raise ValidationError("This item has already been claimed or approved for claim.")
+
+        # Prevent user from having multiple active claims
+        if Claim.objects.filter(
+            user=self.user,
+            status__in=['pending', 'approved', 'claimed']
+        ).exclude(pk=self.pk).exists():
+            raise ValidationError("You already have an active claim.")
 
     def save(self, *args, **kwargs):
-        self.clean()
+        self.full_clean()
         super().save(*args, **kwargs)
+
+        # Update item status based on claim outcome
+        if self.status in ['approved', 'claimed']:
+            self.item.status = 'claimed'
+            self.item.save()
+        elif self.status == 'denied':
+            # Restore item status if no remaining active claims
+            has_other_active = Claim.objects.filter(
+                item=self.item,
+                status__in=['approved', 'pending']
+            ).exclude(pk=self.pk).exists()
+            if not has_other_active:
+                self.item.status = 'available'
+                self.item.save()
+

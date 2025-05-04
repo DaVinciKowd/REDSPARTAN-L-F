@@ -49,6 +49,11 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = '__all__'
+        read_only_fields = ['author']
+
+    def create(self, validated_data):
+        validated_data['author'] = self.context['request'].user
+        return super().create(validated_data)
 
 class ClaimSerializer(serializers.ModelSerializer):
     class Meta:

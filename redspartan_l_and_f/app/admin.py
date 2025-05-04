@@ -24,7 +24,7 @@ admin.site.register(Note)
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'status', 'is_claimed', 'location', 'date_reported', 'author')
+    list_display = ('name', 'category', 'status', 'location', 'date_reported', 'author')
     list_filter = ('category', 'status', 'date_reported')
     search_fields = ('name', 'description', 'location')
 
