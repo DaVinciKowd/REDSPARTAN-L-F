@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X, Send, User, ChevronRight, CornerDownLeft } from 'lucide-react';
-import '../styles/ChatBot.css';
+import '../styles/Chatbot.css';
 
 export default function EnhancedChatBot() {
   // ----- STATE VARIABLES -----
@@ -65,18 +65,13 @@ export default function EnhancedChatBot() {
     scrollToBottom();
   };
   
-  // Generate a unique ID for messages
-  const generateUniqueId = () => {
-    return Date.now().toString() + Math.random().toString(36).substr(2, 9);
-  };
-  
   // Adds a bot message to the chat
   const addBotMessage = (text) => {
     setIsTyping(false);
     setMessages(prev => [...prev, {
       type: 'bot',
       content: text,
-      id: generateUniqueId()
+      id: Date.now()
     }]);
     
     // Increment unread count if chat is closed
@@ -90,7 +85,7 @@ export default function EnhancedChatBot() {
     setMessages(prev => [...prev, {
       type: 'user',
       content: text,
-      id: generateUniqueId()
+      id: Date.now()
     }]);
   };
   
@@ -99,7 +94,7 @@ export default function EnhancedChatBot() {
     setMessages(prev => [...prev, {
       type: 'quick-replies',
       options: replies,
-      id: generateUniqueId()
+      id: Date.now()
     }]);
   };
   
@@ -358,9 +353,7 @@ export default function EnhancedChatBot() {
   return (
     <div className="chatbot-container">
       {/* Chat button (visible when chat is closed) */}
-      <div 
-        className={`chat-button-container ${isOpen ? 'hidden' : 'block'}`}
-      >
+      <div className={`chat-button ${isOpen ? 'hidden' : ''}`}>
         {/* Notification badge for unread messages */}
         {unreadCount > 0 && (
           <div className="notification-badge">
@@ -369,10 +362,10 @@ export default function EnhancedChatBot() {
         )}
         <button
           onClick={toggleChat}
-          className="chat-button"
+          className="chat-toggle-button"
           aria-label="Open chat"
         >
-          <MessageCircle size={24} />
+          <MessageCircle size={34} />
         </button>
       </div>
       
@@ -381,18 +374,18 @@ export default function EnhancedChatBot() {
         <div className="chat-window">
           {/* Chat header */}
           <div className="chat-header">
-            <div className="chat-header-info">
-              <div className="chat-header-icon">
-                <MessageCircle size={20} className="text-red-800" />
+            <div className="header-info">
+              <div className="header-icon">
+                <MessageCircle size={20} />
               </div>
               <div>
-                <h3 className="chat-header-title">RedSpartanL&F Assistant</h3>
-                <p className="chat-header-subtitle">Online | Batangas State University</p>
+                <h3 className="header-title">RedSpartanL&F Assistant</h3>
+                <p className="header-subtitle">Online | Batangas State University</p>
               </div>
             </div>
             <button 
               onClick={toggleChat}
-              className="chat-close-button"
+              className="close-button"
               aria-label="Close chat"
             >
               <X size={20} />
@@ -400,17 +393,17 @@ export default function EnhancedChatBot() {
           </div>
           
           {/* Chat message area */}
-          <div className="chat-messages">
+          <div className="message-area">
             {/* Map through messages and render based on type */}
             {messages.map((message) => {
               // Bot messages
               if (message.type === 'bot') {
                 return (
-                  <div key={message.id} className="message-container bot-message-container">
-                    <div className="bot-avatar">
-                      <MessageCircle size={16} className="text-red-800" />
+                  <div key={message.id} className="message bot-message">
+                    <div className="message-icon bot-icon">
+                      <MessageCircle size={16} />
                     </div>
-                    <div className="bot-message">
+                    <div className="message-bubble bot-bubble">
                       <div 
                         className="message-content"
                         dangerouslySetInnerHTML={{ __html: message.content }} 
@@ -425,15 +418,15 @@ export default function EnhancedChatBot() {
               // User messages
               else if (message.type === 'user') {
                 return (
-                  <div key={message.id} className="message-container user-message-container">
-                    <div className="user-message">
+                  <div key={message.id} className="message user-message">
+                    <div className="message-bubble user-bubble">
                       <div className="message-content">{message.content}</div>
                       <div className="message-timestamp user-timestamp">
                         {getTimeString()}
                       </div>
                     </div>
-                    <div className="user-avatar">
-                      <User size={16} className="text-gray-600" />
+                    <div className="message-icon user-icon">
+                      <User size={16} />
                     </div>
                   </div>
                 );
@@ -441,7 +434,7 @@ export default function EnhancedChatBot() {
               // Quick reply buttons
               else if (message.type === 'quick-replies') {
                 return (
-                  <div key={message.id} className="quick-replies-container">
+                  <div key={message.id} className="quick-replies">
                     {message.options.map((option, index) => (
                       <button
                         key={index}
@@ -460,15 +453,15 @@ export default function EnhancedChatBot() {
             
             {/* Bot typing indicator */}
             {isTyping && (
-              <div className="message-container bot-message-container">
-                <div className="bot-avatar">
-                  <MessageCircle size={16} className="text-red-800" />
+              <div className="message bot-message">
+                <div className="message-icon bot-icon">
+                  <MessageCircle size={16} />
                 </div>
-                <div className="bot-message typing-indicator">
+                <div className="message-bubble bot-bubble typing-indicator">
                   <div className="typing-dots">
-                    <div className="typing-dot first"></div>
-                    <div className="typing-dot second"></div>
-                    <div className="typing-dot third"></div>
+                    <div className="typing-dot"></div>
+                    <div className="typing-dot delay-1"></div>
+                    <div className="typing-dot delay-2"></div>
                   </div>
                 </div>
               </div>
@@ -479,8 +472,8 @@ export default function EnhancedChatBot() {
           </div>
           
           {/* Chat input area */}
-          <div className="chat-input-area">
-            <div className="chat-input-container">
+          <div className="input-area">
+            <div className="input-container">
               <input
                 ref={inputRef}
                 type="text"

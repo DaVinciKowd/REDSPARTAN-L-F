@@ -1,0 +1,116 @@
+:root {
+    --primary-color: #bf2c34;
+    --light-text: #777777;
+    --border-color: #e0e0e0;
+  }
+  
+  .about-main {
+    padding: 2rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .about-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 25px rgba(191, 44, 52, 0.15);
+    padding: 3rem;
+    margin-bottom: 2rem;
+    border-top: 4px solid var(--primary-color);
+  }
+  
+  .about-title {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  
+  .about-subtitle {
+    color: var(--light-text);
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+  
+  .about-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .about-section:last-child {
+    border-bottom: none;
+  }
+  
+  .about-section h2 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .about-section p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  
+  .about-objectives-list {
+    margin: 1rem 0 1rem 1.5rem;
+    list-style: disc;
+  }
+  
+  .about-objectives-list li {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  
+  .about-objectives-list strong {
+    font-weight: 600;
+  }
+  
+  .about-mission-vision {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .about-mission,
+  .about-vision {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  .about-back-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    margin-top: 2rem;
+  }
+  
+  .about-back-btn:hover {
+    background-color: #a82329;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 1.5rem;
+    }
+  
+    .about-mission-vision {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  

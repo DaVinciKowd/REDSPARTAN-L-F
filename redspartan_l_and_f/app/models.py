@@ -94,7 +94,7 @@ class Item(models.Model):
 class Claim(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name="claims")
     user = models.ForeignKey('app.CustomUser', on_delete=models.CASCADE, related_name="claims")
-    claim_date = models.DateTimeField(auto_now_add=True)
+    approval_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=20,
         choices=[

@@ -9,6 +9,7 @@ import SubmitItem from "./pages/SubmitItem";
 import ClaimItem from "./pages/ClaimItem";
 import SearchPage from "./pages/SearchPage";
 import Chatbot from "./components/Chatbot";
+import AboutUs from "./pages/AboutUs";
 
 function Logout() {
   localStorage.clear();
@@ -43,8 +44,9 @@ function App() {
           <Route element={<ProtectedLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/submit" element={<SubmitItem />} />
-            <Route path="/claim/:itemId" element={<ClaimItem />} />
+            <Route path="/claim-item/:id" element={<ClaimItem />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/about-us" element={<AboutUs />} />
           </Route>
         </Route>
 

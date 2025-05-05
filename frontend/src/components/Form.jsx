@@ -10,6 +10,7 @@ function Form({ route, method }) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState(""); // new state
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState([]);
@@ -21,8 +22,13 @@ function Form({ route, method }) {
         e.preventDefault();
         setErrorMsg([]);
 
-        if (!username || !password || (method !== "login" && !email)) {
+        if (!username || !password || (method !== "login" && (!email || !confirmPassword))) {
             setErrorMsg(["Please fill out the required fields"]);
+            return;
+        }
+
+        if (method !== "login" && password !== confirmPassword) {
+            setErrorMsg(["Passwords do not match"]);
             return;
         }
 
@@ -63,6 +69,7 @@ function Form({ route, method }) {
     return (
         <form onSubmit={handleSubmit} className="form-container">
             <h2 className="form-title">{name}</h2>
+
             <div className="input-group">
                 <label>Username</label>
                 <div className="input-with-icon">
@@ -78,19 +85,21 @@ function Form({ route, method }) {
             </div>
 
             {method !== "login" && (
-                <div className="input-group">
-                    <label>Email</label>
-                    <div className="input-with-icon">
-                        <FiMail className="input-icon" />
-                        <input
-                            className="form-input"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email"
-                        />
+                <>
+                    <div className="input-group">
+                        <label>Email</label>
+                        <div className="input-with-icon">
+                            <FiMail className="input-icon" />
+                            <input
+                                className="form-input"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Email"
+                            />
+                        </div>
                     </div>
-                </div>
+                </>
             )}
 
             <div className="input-group">
@@ -113,6 +122,29 @@ function Form({ route, method }) {
                     </button>
                 </div>
             </div>
+
+            {method !== "login" && (
+                <div className="input-group">
+                    <label>Confirm Password</label>
+                    <div className="input-with-icon password-field">
+                        <FiLock className="input-icon" />
+                        <input
+                            className="form-input"
+                            type={showPassword ? "text" : "password"}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            placeholder="Confirm Password"
+                        />
+                        <button
+                            type="button"
+                            className="password-toggle"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                            {showPassword ? <FiEye /> : <FiEyeOff />}
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {errorMsg.length > 0 && (
                 <div className="form-error">

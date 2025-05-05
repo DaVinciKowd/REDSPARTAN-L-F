@@ -1,0 +1,167 @@
+/* ClaimItem.css - Enhanced Professional Red Theme */
+
+  .claim-main-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: calc(100vh - 120px); /* Adjust based on navbar/footer height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .claim-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(169, 30, 30, 0.15);
+    overflow: hidden;
+    border: 1px solid rgba(220, 38, 38, 0.15);
+    max-width: 900px;
+  }
+  
+  .claim-welcome-text {
+    background-color: #9b1c1c; /* Rich dark red */
+    padding: 2.5rem 3rem;
+    color: white;
+  }
+  
+  .claim-welcome-text h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  
+  .claim-welcome-text p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 1.05rem;
+  }
+  
+  .claim-welcome-text p:last-child {
+    color: #fecaca; /* Light red for warning */
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    display: inline-block;
+  }
+  
+  /* Item details styling */
+  .claim-item-details {
+    padding: 2rem 3rem;
+    background-color: #fef2f2; /* Very light red background */
+    border-bottom: 1px solid rgba(220, 38, 38, 0.15);
+  }
+  
+  .claim-item-details h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #9b1c1c;
+    margin-bottom: 1.25rem;
+  }
+  
+  .claim-item-details p {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+    color: #374151;
+  }
+  
+  .claim-item-details p strong {
+    color: #7f1d1d;
+    font-weight: 600;
+    display: inline-block;
+    width: 105px;
+  }
+  
+  .claim-image-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 2rem;
+  }
+  
+  .claim-item-image {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background-color: white;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 0.5rem;
+  }
+  
+  .claim-submit-box {
+    padding: 2rem 3rem;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .claim-submit-box h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #9b1c1c; /* Match header color */
+  }
+  
+  .claim-button {
+    background-color: #dc2626; /* Bright red */
+    color: white;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    letter-spacing: 0.02em;
+  }
+  
+  .claim-button:hover {
+    background-color: #b91c1c; /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(220, 38, 38, 0.4);
+  }
+  
+  .claim-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  }
+  
+  /* Add responsive styles */
+  @media (min-width: 768px) {
+    .claim-container {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .claim-button {
+      width: auto;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .claim-welcome-text,
+    .claim-item-details,
+    .claim-submit-box {
+      padding: 1.5rem;
+    }
+    
+    .claim-welcome-text h1 {
+      font-size: 1.75rem;
+    }
+    
+    .claim-item-details h2 {
+      font-size: 1.5rem;
+    }
+    
+    .claim-item-details p strong {
+      width: 90px;
+    }
+  }

@@ -58,8 +58,8 @@ class ItemViewSet(viewsets.ModelViewSet):
 class ClaimViewSet(viewsets.ModelViewSet):
     queryset = Claim.objects.all()
     serializer_class = ClaimSerializer
-    permission_classes = [IsAuthenticated] 
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status', 'user', 'item']
 
-
+    def perform_create(self, serializer):
+        # Ensure that the 'user' field is populated from the request user
+        user = self.request.user  # Get the current user from the request
+        serializer.save(user=user)

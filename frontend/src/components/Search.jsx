@@ -69,7 +69,7 @@ function Search() {
         {results.length > 0 ? (
           <div className="results-grid">
             {results.map((item) => (
-              <Link to={`/items/${item.id}`} className="search-card" key={item.id}>
+              <Link to={`/claim-item/${item.id}`} className="search-card" key={item.id}>
                 {item.image && (
                   <img
                     src={item.image}

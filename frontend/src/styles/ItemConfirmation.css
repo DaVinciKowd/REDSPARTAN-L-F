@@ -1,0 +1,56 @@
+/* Scoped styles for ItemConfirmation modal */
+.item-confirmation-modal .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.item-confirmation-modal .modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.item-confirmation-modal .modal-button-group {
+    margin-top: 1.5rem;
+}
+
+.item-confirmation-modal .item-confirmation-btn {
+    padding: 0.5rem 1.5rem;
+    margin: 0 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.item-confirmation-modal .item-confirmation-btn:first-child {
+    background-color: #28a745;
+    color: white;
+}
+
+.item-confirmation-modal .item-confirmation-btn:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.item-confirmation-modal .modal-success {
+    color: green;
+    margin-top: 1rem;
+}
+
+.item-confirmation-modal .modal-error {
+    color: red;
+    margin-top: 1rem;
+}
