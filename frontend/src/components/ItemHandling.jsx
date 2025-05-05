@@ -113,7 +113,7 @@ function ItemHandling({ route, method }) {
       <div className="itemhandling-group">
         <label>Item Name</label>
         <div className="itemhandling-input-with-icon">
-          <FaTag className="itemhandling-icon"/>
+          <FaTag className="itemhandling-icon" id="itemhandling-name"/>
           <input
             className="itemhandling-input"
             type="text"
@@ -128,7 +128,7 @@ function ItemHandling({ route, method }) {
       <div className="itemhandling-group">
         <label>Category</label>
         <div className="itemhandling-input-with-icon">
-          <MdCategory className="itemhandling-icon"/>
+          <MdCategory className="itemhandling-icon" id="itemhandling-category"/>
           <select
             className="itemhandling-input"
             name="category"
@@ -147,14 +147,14 @@ function ItemHandling({ route, method }) {
       <div className="itemhandling-group">
         <label>Location</label>
         <div className="itemhandling-input-with-icon">
-          <FaMapMarkerAlt className="itemhandling-icon"/>
+          <FaMapMarkerAlt className="itemhandling-icon" id="itemhandling-location"/>
           <button
             type="button"
             className="itemhandling-input"
             onClick={() => setShowMap(true)}
           >
             {formData.location
-              ? `Pinned at (${formData.location})`
+              ? `Pinned at ${formData.location}`
               : "Select location on map"}
           </button>
         </div>
@@ -164,7 +164,7 @@ function ItemHandling({ route, method }) {
       <div className="itemhandling-group">
         <label>Description</label>
         <div className="itemhandling-input-with-icon">
-          <FaFileAlt className="itemhandling-icon"/>
+          <FaFileAlt className="itemhandling-icon" id="itemhandling-description"/>
           <textarea
             className="itemhandling-input"
             name="description"
@@ -194,7 +194,18 @@ function ItemHandling({ route, method }) {
             onChange={handleImageChange}
           />
         </div>
+
+        {formData.image && (
+          <button
+            type="button"
+            className="itemhandling-remove-image-btn"
+            onClick={() => setFormData({ ...formData, image: null })}
+          >
+            Remove Image
+          </button>
+        )}
       </div>
+
 
       {errorMsg.length > 0 && (
         <div className="itemhandling-error">
@@ -202,7 +213,10 @@ function ItemHandling({ route, method }) {
         </div>
       )}
       {successMsg && <div className="itemhandling-success">{successMsg}</div>}
-      {loading && <LoadingIndicator />}
+
+      <div className="itemhandling-loader">
+        {loading && <LoadingIndicator />}
+      </div>
 
       <button className="itemhandling-button" type="submit">{title}</button>
 
@@ -210,7 +224,7 @@ function ItemHandling({ route, method }) {
         <CampusMap
           onClose={() => setShowMap(false)}
           onSave={({ x, y }) =>
-            setFormData({ ...formData, location: `${x},${y}` })
+            setFormData({ ...formData, location: `(${x}, ${y})` })
           }
         />
       )}

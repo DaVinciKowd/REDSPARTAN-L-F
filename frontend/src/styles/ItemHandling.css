@@ -20,6 +20,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-bottom: 20px;
 }
 
 .itemhandling-group label {
@@ -39,6 +40,10 @@
   font-size: 1.3rem;
   color: #666;
   pointer-events: none;
+}
+
+#itemhandling-name, #itemhandling-location {
+  top: 50%;
 }
 
 .itemhandling-input,
@@ -85,6 +90,13 @@
   background-color: #8c0000;
 }
 
+.itemhandling-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  height: 100%;            
+}
+
 .itemhandling-error {
   margin-top: 1rem;
   padding: 0.8rem;
@@ -119,4 +131,18 @@
 .itemhandling-dropzone.active {
   border-color: #ff3c3c;
   background-color: #f0f8ff;
+}
+
+.itemhandling-remove-image-btn {
+  margin-top: 8px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.itemhandling-remove-image-btn:hover {
+  background-color: #c82333;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../styles/SearchBar.css";
 import { FaSearch } from "react-icons/fa";
 
-function SearchBar({ onSearch }) {
+function Search({ onSearch }) {
     const [query, setQuery] = useState("");
 
     const handleSubmit = (e) => {
@@ -29,4 +29,4 @@ function SearchBar({ onSearch }) {
     );
 }
 
-export default SearchBar;
+export default Search;

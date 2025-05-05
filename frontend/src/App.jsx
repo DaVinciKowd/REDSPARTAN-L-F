@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom"
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SubmitItem from "./pages/SubmitItem";
 import ClaimItem from "./pages/ClaimItem";
+import SearchPage from "./pages/SearchPage";
+import Chatbot from "./components/Chatbot";
 
 function Logout() {
   localStorage.clear();
@@ -16,6 +18,15 @@ function Logout() {
 function RegisterAndLogout() {
   localStorage.clear();
   return <Register />;
+}
+
+function ProtectedLayout() {
+  return (
+    <>
+      <Outlet />
+      <Chatbot />
+    </>
+  );
 }
 
 function App() {
@@ -29,9 +40,12 @@ function App() {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/submit" element={<SubmitItem />} />
-          <Route path="/claim/:itemId" element={<ClaimItem />} />
+          <Route element={<ProtectedLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/submit" element={<SubmitItem />} />
+            <Route path="/claim/:itemId" element={<ClaimItem />} />
+            <Route path="/search" element={<SearchPage />} />
+          </Route>
         </Route>
 
         {/* Error Route */}

@@ -19,7 +19,7 @@ function Home() {
                             <p>Report an item you've found and help reunite it with its owner.</p>
                         </Link>
 
-                        <Link to="/claim" className="home-option-card">
+                        <Link to="/search" className="home-option-card">
                             <h2>Find an Item</h2>
                             <p>Search for items you may have lost and submit a claim request.</p>
                         </Link>

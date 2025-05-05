@@ -42,9 +42,13 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all().order_by('-date_reported')
     serializer_class = ItemSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    
+    filter_backends = [DjangoFilterBackend, 
+                       filters.SearchFilter, 
+                       filters.OrderingFilter]
+
     filterset_fields = ['status', 'category']
-    search_fields = ['name', 'description', 'location']
+    search_fields = ['name', 'description', 'category']
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
