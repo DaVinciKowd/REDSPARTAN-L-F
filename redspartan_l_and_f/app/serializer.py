@@ -56,14 +56,51 @@ class ItemSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class ClaimSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)  # Optional: for display
+    user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Claim
         fields = '__all__'
         read_only_fields = ['user', 'approval_date']
 
-    def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user  # Set the current user
-        return super().create(validated_data)
+    # def create(self, validated_data):
+    #     validated_data['user'] = self.context['request'].user
+    #     return super().create(validated_data)
 
+    def validate(self, data):
+        request = self.context.get("request")
+        user = request.user if request else None
+        item = data.get("item")
+
+        if not user or not item:
+            raise serializers.ValidationError("User or item is missing.")
+
+        # Exclude current instance for update cases
+        exclude_pk = self.instance.pk if self.instance else None
+        base_qs = Claim.objects.exclude(pk=exclude_pk)
+
+        # 1. Repeat denied claim for same item
+        if base_qs.filter(item=item, user=user, status='denied').exists():
+            raise serializers.ValidationError(
+                "You have already been denied a claim for this item."
+            )
+
+        # 2. Another user's pending claim
+        if base_qs.filter(item=item, status='pending').exists():
+            raise serializers.ValidationError(
+                "This item already has a pending claim."
+            )
+
+        # 3. Already resolved (approved/claimed)
+        if base_qs.filter(item=item, status__in=['approved', 'claimed']).exists():
+            raise serializers.ValidationError(
+                "This item has already been claimed or approved for claim."
+            )
+
+        # 4. User already has another active claim
+        if base_qs.filter(user=user, status__in=['pending', 'approved', 'claimed']).exists():
+            raise serializers.ValidationError(
+                "You already have an active claim."
+            )
+
+        return data

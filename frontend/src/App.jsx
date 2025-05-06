@@ -10,6 +10,9 @@ import ClaimItem from "./pages/ClaimItem";
 import SearchPage from "./pages/SearchPage";
 import Chatbot from "./components/Chatbot";
 import AboutUs from "./pages/AboutUs";
+import OurTeam from "./pages/OurTeam";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 
 function Logout() {
   localStorage.clear();
@@ -47,6 +50,9 @@ function App() {
             <Route path="/claim-item/:id" element={<ClaimItem />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/our-team" element={<OurTeam />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
           </Route>
         </Route>
 

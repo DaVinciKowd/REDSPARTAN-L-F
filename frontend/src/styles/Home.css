@@ -1,6 +1,23 @@
+.home-page {
+  --primary-color: #bf2c34;
+  --secondary-color: #a82329;
+  --accent-color: #f5f5f5;
+  --text-color: #333333;
+  --light-text: #777777;
+  --border-color: #e0e0e0;
+  --card-bg: #ffffff;
+  --transition-speed: 0.3s;
+}
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .home-main {
-  margin-top: 0;
-  height: 100vh;
+  flex: 1;
+  min-height: calc(100vh - 120px); /* Adjusting for navbar and footer */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,6 +25,7 @@
   background-size: cover;
   background-position: center;
   position: relative;
+  padding: 2rem 1rem;
 }
 
 .home-main::before {
@@ -17,7 +35,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(128, 0, 0, 0.5); /* maroon overlay */
+  background: linear-gradient(
+    135deg, 
+    rgba(168, 35, 42, 0.459) 0%,
+    rgba(130, 27, 30, 0.377) 100%
+  );
   z-index: 1;
 }
 
@@ -26,30 +48,143 @@
   z-index: 2;
   color: #fff;
   text-align: center;
-  max-width: 800px;
+  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem;
+}
+
+.home-content h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .home-options {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 2.5rem;
   margin-top: 2rem;
   flex-wrap: wrap;
 }
 
 .home-option-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
-  padding: 1.5rem;
-  width: 300px;
+  padding: 2rem;
+  width: 340px;
   text-decoration: none;
-  color: #333;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+  color: var(--text-color);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: all var(--transition-speed) ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-top: 4px solid var(--primary-color);
 }
 
 .home-option-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.home-option-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.home-option-card p {
+  color: var(--light-text);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.option-icon {
+  height: 60px;
+  width: 60px;
+  margin: 0 auto 1.5rem;
+  background-color: rgba(191, 44, 52, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.option-icon::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.submit-icon::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bf2c34' viewBox='0 0 24 24'%3E%3Cpath d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E");
+}
+
+.search-icon::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bf2c34' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+}
+
+.card-cta {
+  margin-top: auto;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.home-option-card:hover .card-cta {
+  background-color: var(--secondary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-content h1 {
+    font-size: 2.2rem;
+  }
+  
+  .home-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .home-options {
+    gap: 1.5rem;
+  }
+  
+  .home-option-card {
+    width: 100%;
+    max-width: 340px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-content {
+    padding: 2rem 1rem;
+  }
+  
+  .home-content h1 {
+    font-size: 1.8rem;
+  }
 }

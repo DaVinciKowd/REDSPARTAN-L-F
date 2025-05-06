@@ -60,6 +60,8 @@ class ClaimViewSet(viewsets.ModelViewSet):
     serializer_class = ClaimSerializer
 
     def perform_create(self, serializer):
-        # Ensure that the 'user' field is populated from the request user
-        user = self.request.user  # Get the current user from the request
-        serializer.save(user=user)
+        serializer.save(user=self.request.user)
+
+    def get_serializer_context(self):
+        return {"request": self.request}
+

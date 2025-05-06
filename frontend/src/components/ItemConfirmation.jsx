@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import api from "../api";
 import "../styles/ItemConfirmation.css";
+import { useNavigate } from "react-router-dom";
 
 function ItemConfirmation({ itemId, isOpen, onClose }) {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [debugInfo, setDebugInfo] = useState(null);
+    const navigate = useNavigate();
 
     const token = localStorage.getItem("access_token");
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
@@ -14,46 +16,63 @@ function ItemConfirmation({ itemId, isOpen, onClose }) {
     const handleDecision = async (decision) => {
         if (decision === "no") {
             setResponse("Reservation cancelled.");
-            setTimeout(onClose, 1500);
+            setTimeout(() => {
+                onClose();  // Close the modal first
+                window.location.reload();  // Refresh the page after 1.5 seconds
+            }, 1500);
             return;
         }
-    
+
         setLoading(true);
         setError(null);
         setDebugInfo(null);
-    
+
         try {
             const payload = {
                 item: itemId,
                 status: "approved"
             };
-    
+
             console.log("Making API POST to /api/claims/ with:", payload);
-    
+
             const res = await api.post("/api/claims/", payload);
-    
+
             console.log("API success response:", res.data);
-    
+
             setResponse("Your request has been approved. Please proceed to the Lost and Found station.");
-            setTimeout(onClose, 2000);
+            setTimeout(() => {
+                onClose();
+                navigate('/');
+            }, 3000);
+            
         } catch (err) {
             console.error("Error during claim submission:", err);
-    
-            setError(err.response?.data?.detail || err.message || "Unknown error occurred");
-    
-            // Optional debug info
+
+            const data = err.response?.data;
+            if (typeof data === "object" && data !== null) {
+                const messages = Object.entries(data).flatMap(([field, errors]) =>
+                    errors.map((msg) => `${field === "non_field_errors" ? "Error" : field}: ${msg}`)
+                );
+                setError(messages);
+            } else {
+                setError(["An unknown error occurred."]);
+            }
+
             setDebugInfo({
-                errorData: err.response?.data,
+                errorData: data,
                 status: err.response?.status,
                 tokenExists: !!localStorage.getItem("access_token"),
                 tokenPreview: (localStorage.getItem("access_token") || "").slice(0, 10) + "...",
                 endpoint: "/api/claims/"
             });
+
+            setTimeout(() => onClose(), 2000);
+
         } finally {
             setLoading(false);
         }
     };
-    
+
     
     if (!isOpen) return null;
 
@@ -87,13 +106,20 @@ function ItemConfirmation({ itemId, isOpen, onClose }) {
                     
                     {error && (
                         <div className="modal-error">
-                            <p><strong>Error:</strong> {error}</p>
-                            {debugInfo && (
+                            <>
+                                <strong>Error:</strong>
+                                <ul className="modal-error-list">
+                                    {error.map((msg, idx) => (
+                                    <li key={idx}>{msg}</li>
+                                    ))}
+                                </ul>
+                            </>
+                            {/* {debugInfo && (
                                 <details>
                                     <summary>Debug Info</summary>
                                     <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
                                 </details>
-                            )}
+                            )} */}
                         </div>
                     )}
                 </div>

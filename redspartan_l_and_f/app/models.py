@@ -113,9 +113,9 @@ class Claim(models.Model):
         return f"{self.user.username} claims {self.item.name}"
 
     def clean(self):
-        # Only allow claims on available items
-        if self.item.status != 'available':
-            raise ValidationError("Only items with 'available' status can be claimed.")
+        # # Only allow claims on available items
+        # if self.item.status != 'available':
+        #     raise ValidationError("Only items with 'available' status can be claimed.")
 
         # Prevent repeat denied claims by same user
         if Claim.objects.filter(
@@ -151,7 +151,7 @@ class Claim(models.Model):
 
         # Update item status based on claim outcome
         if self.status in ['approved', 'claimed']:
-            self.item.status = 'claimed'
+            self.item.status = 'pending'
             self.item.save()
         elif self.status == 'denied':
             # Restore item status if no remaining active claims

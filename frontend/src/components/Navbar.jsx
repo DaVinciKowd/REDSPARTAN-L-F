@@ -24,7 +24,7 @@ function Navbar() {
                 <div className="logo">
                     <Link to="/">
                         <img
-                            src="https://i.ibb.co/XfFVgJRr/Untitled-design-16.png"
+                            src="https://i.ibb.co/L7QNPnx/LAF-LOGO.png"
                             alt="Logo"
                         />
                     </Link>
