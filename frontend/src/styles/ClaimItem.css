@@ -94,6 +94,12 @@
     padding: 0.5rem;
   }
   
+  .claim-submit-box-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .claim-submit-box {
     padding: 2rem 3rem;
     background-color: #fff;

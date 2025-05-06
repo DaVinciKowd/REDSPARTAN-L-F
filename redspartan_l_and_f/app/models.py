@@ -141,7 +141,7 @@ class Claim(models.Model):
         # Prevent user from having multiple active claims
         if Claim.objects.filter(
             user=self.user,
-            status__in=['pending', 'approved', 'claimed']
+            status__in=['pending', 'approved']
         ).exclude(pk=self.pk).exists():
             raise ValidationError("You already have an active claim.")
 
@@ -150,8 +150,11 @@ class Claim(models.Model):
         super().save(*args, **kwargs)
 
         # Update item status based on claim outcome
-        if self.status in ['approved', 'claimed']:
+        if self.status == 'approved':
             self.item.status = 'pending'
+            self.item.save()
+        elif self.status == 'claimed':
+            self.item.status = 'claimed'  # Set item status to 'claimed'
             self.item.save()
         elif self.status == 'denied':
             # Restore item status if no remaining active claims
@@ -162,4 +165,5 @@ class Claim(models.Model):
             if not has_other_active:
                 self.item.status = 'available'
                 self.item.save()
+
 

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ItemConfirmation from "../components/ItemConfirmation";
+import CampusMap from "../components/CampusMap";
 import api from "../api";
 import "../styles/ClaimItem.css";
 
@@ -11,6 +12,7 @@ function ClaimItem() {
     const { id } = useParams();
     const itemId = parseInt(id);
     const [itemData, setItemData] = useState(null);
+    const [showMapModal, setShowMapModal] = useState(false); 
 
     useEffect(() => {
         const fetchItemData = async () => {
@@ -59,16 +61,30 @@ function ClaimItem() {
                                 <p><strong>Date Reported:</strong> {new Date(itemData.date_reported).toLocaleDateString()}</p>
                             </div>
                         )}
+                        <div className="claim-submit-box-container">
+                            <div className="claim-submit-box">
+                                {/* View Map button next to Proceed to Claim */}
+                                <h2>Location</h2>
+                                <button
+                                    className="claim-button"
+                                    onClick={() => setShowMapModal(true)}
+                                    disabled={!itemData?.location}  // Disable if no location is available
+                                >
+                                    View Map
+                                </button>
+                            </div>
 
-                        <div className="claim-submit-box">
-                            <h2>Claim Item</h2>
-                            <button
-                                className="claim-button"
-                                onClick={() => setShowModal(true)}
-                            >
-                                Proceed to Claim
-                            </button>
+                            <div className="claim-submit-box">
+                                <h2>Claim Item</h2>
+                                <button
+                                    className="claim-button"
+                                    onClick={() => setShowModal(true)}
+                                >
+                                    Proceed to Claim
+                                </button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -77,6 +93,19 @@ function ClaimItem() {
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                 />
+
+                {/* Map Modal */}
+                {showMapModal && (
+                    <div className="map-modal-overlay">
+                        <div className="map-modal-content">
+                            <CampusMap
+                                initialCoords={itemData?.location}  // Pass location to CampusMap component
+                                readOnly={true}
+                                onClose={() => setShowMapModal(false)}
+                            />
+                        </div>
+                    </div>
+                )}
             </main>
             <Footer />
         </>

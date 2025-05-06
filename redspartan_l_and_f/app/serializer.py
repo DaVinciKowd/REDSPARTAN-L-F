@@ -98,7 +98,7 @@ class ClaimSerializer(serializers.ModelSerializer):
             )
 
         # 4. User already has another active claim
-        if base_qs.filter(user=user, status__in=['pending', 'approved', 'claimed']).exists():
+        if base_qs.filter(user=user, status__in=['pending', 'approved']).exists():
             raise serializers.ValidationError(
                 "You already have an active claim."
             )
