@@ -57,15 +57,12 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class ClaimSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    item = ItemSerializer()  # Serialize the 'item' field using ItemSerializer
 
     class Meta:
         model = Claim
-        fields = '__all__'
-        read_only_fields = ['user', 'approval_date']
-
-    # def create(self, validated_data):
-    #     validated_data['user'] = self.context['request'].user
-    #     return super().create(validated_data)
+        fields = ['id', 'item', 'user', 'approval_date', 'status']  # Include 'item' in the fields
+        read_only_fields = ['user', 'approval_date']  # Specify read-only fields
 
     def validate(self, data):
         request = self.context.get("request")

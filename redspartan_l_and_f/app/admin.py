@@ -19,13 +19,19 @@ class CustomUserAdmin(BaseUserAdmin):
     list_display = ('username', 'email', 'is_staff')
     search_fields = ('username', 'email')
 
-# Register other models
+# Register Note model
 admin.site.register(Note)
 
+# Register Item model with custom admin
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'status', 'location', 'date_reported', 'author')
     list_filter = ('category', 'status', 'date_reported')
     search_fields = ('name', 'description', 'location')
 
-admin.site.register(Claim)
+# Register Claim model with filters and better display
+@admin.register(Claim)
+class ClaimAdmin(admin.ModelAdmin):
+    list_display = ('item', 'user', 'status', 'approval_date')  # Using 'approval_date' here
+    list_filter = ('status', 'approval_date', 'user')  # Using 'approval_date' here
+    search_fields = ('item__name', 'user__username')

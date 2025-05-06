@@ -1,0 +1,126 @@
+/* CheckClaims.css */
+
+/* Main container styling */
+.check-main {
+    min-height: calc(100vh - 120px); /* Adjust based on navbar/footer height */
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .check-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+  }
+  
+  /* Page title */
+  .check-container h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.75rem;
+  }
+  
+  /* Status messages */
+  .check-container p {
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .check-container p.error {
+    color: #dc3545;
+    padding: 0.75rem;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    border-left: 4px solid #dc3545;
+  }
+  
+  /* Loading state */
+  .check-container p:first-of-type {
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  /* Claims table styling */
+  .claims-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .claims-table thead {
+    background-color: #f8f9fa;
+  }
+  
+  .claims-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  .claims-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    color: #212529;
+  }
+  
+  .claims-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+  }
+  
+  /* Style based on claim status */
+  .claims-table td:nth-child(2) {
+    font-weight: 500;
+  }
+  
+  .claims-table tr[data-status="approved"] td:nth-child(2) {
+    color: #28a745;
+  }
+  
+  .claims-table tr[data-status="pending"] td:nth-child(2) {
+    color: #ffc107;
+  }
+  
+  .claims-table tr[data-status="rejected"] td:nth-child(2) {
+    color: #dc3545;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .check-container {
+      width: 95%;
+      padding: 1.5rem;
+    }
+    
+    .claims-table th,
+    .claims-table td {
+      padding: 0.75rem;
+    }
+    
+    .check-container h1 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .claims-table {
+      display: block;
+      overflow-x: auto;
+    }
+    
+    .check-container {
+      padding: 1rem;
+    }
+  }

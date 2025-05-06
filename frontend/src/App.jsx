@@ -13,6 +13,8 @@ import AboutUs from "./pages/AboutUs";
 import OurTeam from "./pages/OurTeam";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import CheckClaims from "./pages/CheckClaims";
+
 
 function Logout() {
   localStorage.clear();
@@ -53,6 +55,7 @@ function App() {
             <Route path="/our-team" element={<OurTeam />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/my-claims" element={<CheckClaims />} />
           </Route>
         </Route>
 
@@ -64,3 +67,5 @@ function App() {
 }
 
 export default App;
+
+

@@ -56,8 +56,11 @@ class ItemViewSet(viewsets.ModelViewSet):
         return context
 
 class ClaimViewSet(viewsets.ModelViewSet):
-    queryset = Claim.objects.all()
+    queryset = Claim.objects.all().order_by('user__username')  # Default ordering
     serializer_class = ClaimSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['user__username', 'status', 'approval_date']
+    ordering = ['user__username']  # Default ordering
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

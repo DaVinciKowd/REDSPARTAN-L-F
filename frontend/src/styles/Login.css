@@ -28,7 +28,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(128, 0, 0, 0.5);
+    background: linear-gradient(
+    135deg, 
+    rgba(168, 35, 42, 0.459) 0%,
+    rgba(130, 27, 30, 0.377) 100%
+    );
     z-index: 1;
 }
 

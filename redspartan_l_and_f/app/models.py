@@ -64,7 +64,6 @@ ITEM_CATEGORIES = [
     ('stationery', 'Stationery'),
     ('sports', 'Sports Equipment'),
     ('toys', 'Toys'),
-    ('food', 'Food/Drink'),
     ('tools', 'Tools'),
     ('pet_items', 'Pet Items'),
     ('medical', 'Medical Items'),

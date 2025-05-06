@@ -42,7 +42,6 @@ function SearchFilter({ onApply }) {
             <option value="stationery">Stationery</option>
             <option value="sports">Sports Equipment</option>
             <option value="toys">Toys</option>
-            <option value="food">Food/Drink</option>
             <option value="tools">Tools</option>
             <option value="pet_items">Pet Items</option>
             <option value="medical">Medical Items</option>
